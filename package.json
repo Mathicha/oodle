@@ -2,7 +2,7 @@
   "name": "oodle",
   "version": "0.0.0",
   "private": true,
-  "devDependencies": {
+  "dependencies": {
     "@types/node": "*",
     "node-addon-api": "*"
   }
