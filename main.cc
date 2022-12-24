@@ -47,15 +47,15 @@ public:
             Napi::Error::New(env, "Wrong magic number").ThrowAsJavaScriptException();
             return;
         }
-        auto compressor = *(reinterpret_cast<OO_U32 *>(&data[4]));
+        // auto compressor = *(reinterpret_cast<OO_U32 *>(&data[4]));
         auto ht_bits = *(reinterpret_cast<OO_U32 *>(&data[8]));
         auto dic_size = *(reinterpret_cast<OO_U32 *>(&data[12]));
         auto oodle_major_version = *(reinterpret_cast<OO_U32 *>(&data[16]));
-        auto dic_complen = *(reinterpret_cast<OO_U32 *>(&data[20]));
+        // auto dic_complen = *(reinterpret_cast<OO_U32 *>(&data[20]));
         auto statecompacted_size = *(reinterpret_cast<OO_U32 *>(&data[24]));
-        auto statecompacted_complen = *(reinterpret_cast<OO_U32 *>(&data[28]));
+        // auto statecompacted_complen = *(reinterpret_cast<OO_U32 *>(&data[28]));
 
-        pCompressor = {0};
+        pCompressor = {};
         pCompressor.dic = malloc(dic_size);
         auto *on1udpnew_compacted = (OodleNetwork1UDP_StateCompacted *)malloc((size_t)statecompacted_size);
         memcpy(pCompressor.dic, &data[32], dic_size);
