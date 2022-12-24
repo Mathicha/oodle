@@ -81,20 +81,27 @@ private:
     {
         auto env = info.Env();
 
-        if (info.Length() != 2 || !info[0].IsBuffer() || !info[1].IsBuffer())
+        if (info.Length() != 2 || !info[0].IsBuffer() || !info[1].IsNumber())
         {
             Napi::Error::New(env, "Wrong arguments").ThrowAsJavaScriptException();
         }
 
-        auto comp = info[0].As<Buffer>();
-        auto raw = info[1].As<Buffer>();
+        auto injs = info[0].As<Buffer>();
+        auto in_len = injs.Length();
+        int64_t out_len = info[1].As<Napi::Number>().Int64Value();
+        char *in_buff = (char *)malloc(in_len);
+        memcpy(in_buff, injs.Data(), in_len);
 
-        if (!pCompressor.decode((const void *)comp.Data(), (OO_SINTa)comp.Length(), (void *)raw.Data(), (OO_SINTa)raw.Length()))
+        char *ouf_buff = (char *)malloc(out_len);
+
+        if (!pCompressor.decode((const void *)in_buff, (OO_SINTa)in_len, (void *)ouf_buff, (OO_SINTa)out_len))
         {
             Napi::Error::New(env, "Failed to decode").ThrowAsJavaScriptException();
         }
-
-        return raw;
+        auto out = Napi::Buffer<char>::Copy(env, ouf_buff, out_len);
+        free(in_buff);
+        free(ouf_buff);
+        return out;
     }
 };
 
