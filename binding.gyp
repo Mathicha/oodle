@@ -8,6 +8,9 @@
         ["OS=='win'", {
           "libraries": ["<(module_root_dir)/lib/oo2net_win64.lib"],
         }],
+        ["OS=='linux' and target_arch=='arm64'", {
+          "libraries": ["<(module_root_dir)/lib/liboo2netlinuxarm64.a"],
+        }],
         ["OS=='linux'", {
           "libraries": ["<(module_root_dir)/lib/liboo2netlinux64.a"],
         }]
